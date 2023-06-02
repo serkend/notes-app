@@ -1,6 +1,8 @@
 package com.plcoding.cleanarchitecturenoteapp.feature_note.presentation.notes.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -20,8 +22,13 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.model.Note
+import com.plcoding.cleanarchitecturenoteapp.ui.theme.DarkGray
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun NoteItem(
@@ -59,11 +66,10 @@ fun NoteItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(end = 32.dp)
         ) {
             Text(
                 text = note.title,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.h1,
                 color = MaterialTheme.colors.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -76,12 +82,29 @@ fun NoteItem(
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis
             )
-        }
-        IconButton(
-            onClick = onDeleteClick,
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete note")
+            Row(
+                modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(
+                    text = convertMillisToDate(note.timestamp),
+                    color = DarkGray,
+                    style = MaterialTheme.typography.body2
+                )
+                Icon(
+                    modifier = Modifier.clickable { onDeleteClick() },
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete note",
+                    tint = Color.Black
+                )
+            }
         }
     }
+}
+
+fun convertMillisToDate(currMillis: Long): String {
+    val date = Date(currMillis)
+    val dateFormat = DateFormat.getDateInstance()
+    return dateFormat.format(date)
 }

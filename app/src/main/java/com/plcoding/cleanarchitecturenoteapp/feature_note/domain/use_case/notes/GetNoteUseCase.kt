@@ -1,4 +1,4 @@
-package com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case
+package com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.notes
 
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.repository.NoteRepository

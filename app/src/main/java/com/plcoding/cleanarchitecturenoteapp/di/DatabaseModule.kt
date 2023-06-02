@@ -1,12 +1,14 @@
 package com.plcoding.cleanarchitecturenoteapp.di
 
 import android.app.Application
-import androidx.room.Dao
 import androidx.room.Room
 import com.plcoding.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDatabase
 import com.plcoding.cleanarchitecturenoteapp.feature_note.data.repository.NoteRepositoryImpl
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.repository.NoteRepository
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.*
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.note_order.GetNoteOrder
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.note_order.SaveNoteOrder
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.notes.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object DatabaseModule {
 
     @Provides
     @Singleton
@@ -36,6 +38,6 @@ object AppModule {
             getNotes = GetNotesUseCase(repository),
             deleteNote = DeleteNoteUseCase(repository),
             addNoteUseCase = AddNoteUseCase(repository),
-            getNoteById = GetNoteUseCase(repository)
+            getNoteById = GetNoteUseCase(repository),
         )
 }

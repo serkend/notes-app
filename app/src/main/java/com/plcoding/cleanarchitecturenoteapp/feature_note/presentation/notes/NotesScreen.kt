@@ -79,7 +79,10 @@ fun NotesScreen(
                     noteOrder = state.noteOrder,
                     onOrderChange = { viewModel.onEvent(NotesEvent.Order(it)) })
                 Spacer(modifier = Modifier.height(16.dp))
-                LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     items(state.notes) { note ->
                         NoteItem(note = note, modifier = Modifier
                             .fillMaxWidth()

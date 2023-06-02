@@ -1,20 +1,15 @@
 package com.plcoding.cleanarchitecturenoteapp.feature_note.presentation.add_edit_note
 
 import android.util.Log
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.model.Note
-import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCase
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.notes.NoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.sql.Time
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel

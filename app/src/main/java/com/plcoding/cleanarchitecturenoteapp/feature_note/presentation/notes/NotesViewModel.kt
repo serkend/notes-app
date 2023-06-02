@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.model.Note
-import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCase
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.note_order.NoteOrderUseCases
+import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.use_case.notes.NoteUseCase
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.util.NoteOrder
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.util.NotesEvent
 import com.plcoding.cleanarchitecturenoteapp.feature_note.domain.util.OrderType
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val noteUseCases: NoteUseCase
+    private val noteUseCases: NoteUseCase,
+    private val noteOrderUseCases: NoteOrderUseCases,
 ) : ViewModel() {
 
     private var _notesState = mutableStateOf(NotesState())
@@ -24,6 +26,7 @@ class NotesViewModel @Inject constructor(
     private var recentlyDeletedNote: Note? = null
 
     init {
+        getNoteOrder()
         getNotes(NoteOrder.Date(OrderType.Descending))
     }
 
@@ -40,7 +43,8 @@ class NotesViewModel @Inject constructor(
                 ) {
                     return
                 }
-                _notesState.value = _notesState.value.copy(noteOrder = event.noteOrder)
+                //  _notesState.value = _notesState.value.copy(noteOrder = event.noteOrder)
+                saveNoteOrder(event.noteOrder)
                 getNotes(event.noteOrder)
             }
             NotesEvent.RestoreNote -> {
@@ -62,6 +66,22 @@ class NotesViewModel @Inject constructor(
             noteUseCases.getNotes(noteOrder).collect {
                 _notesState.value = _notesState.value.copy(notes = it)
             }
+        }
+    }
+
+    private fun getNoteOrder() {
+        viewModelScope.launch {
+            noteOrderUseCases.getNoteOrder().collect { noteOrder ->
+                noteOrder?.let {
+                    _notesState.value = _notesState.value.copy(noteOrder = it)
+                }
+            }
+        }
+    }
+
+    private fun saveNoteOrder(noteOrder: NoteOrder) {
+        viewModelScope.launch {
+            noteOrderUseCases.saveNoteOrder(noteOrder = noteOrder)
         }
     }
 }

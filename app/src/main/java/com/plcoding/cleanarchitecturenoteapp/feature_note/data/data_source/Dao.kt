@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 
 @androidx.room.Dao
 interface Dao {
-
     @Query("select * from note_table")
     fun getAllNotes(): Flow<List<Note>>
 
